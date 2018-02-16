@@ -4,7 +4,7 @@ import json
 import ssl
 
 
-def list_friends(acct):
+def list_friends(acct, flag = "print"):
 
     # https://apps.twitter.com/
     # Create App and get the four strings, put them in hidden.py
@@ -22,8 +22,6 @@ def list_friends(acct):
     data = connection.read().decode()
 
     js = json.loads(data)
-    with open("file.json", "w", encoding = "utf-8") as file:
-        json.dump(js, file, ensure_ascii = False, indent = 4)
 
     data = []
     for user in js["users"]:
@@ -34,8 +32,10 @@ def list_friends(acct):
         user_info["description"] = user["description"]
         user_info["lang"] = user["lang"]
         data.append(user_info)
-
-    with open("file1.json", "w", encoding = "utf-8") as file:
-        json.dump(data, file, ensure_ascii = False, indent = 4)
+    if flag == "print":
+        print(json.dumps(data, indent=4))
+    else:
+        with open("friend_info.json", "w", encoding = "utf-8") as file:
+            json.dump(data, file, ensure_ascii = False, indent = 4)
 
     return data
