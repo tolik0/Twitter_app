@@ -15,9 +15,8 @@ def list_friends(acct):
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
-    
-    if (len(acct) < 1): break
-    url = twurl.augment(TWITTER_URL, {'screen_name': acct, 'count': '5'})
+
+    url = twurl.augment(TWITTER_URL, {'screen_name': acct, 'count': '40'})
     print('Retrieving', url)
     connection = urllib.request.urlopen(url, context=ctx)
     data = connection.read().decode()
@@ -26,14 +25,17 @@ def list_friends(acct):
     with open("file.json", "w", encoding = "utf-8") as file:
         json.dump(js, file, ensure_ascii = False, indent = 4)
 
-    data = dict()
+    data = []
     for user in js["users"]:
-        screen_name = user["screen_name"]
-        data[screen_name] = dict()
-        data[screen_name]["name"] = user["name"]
-        data[screen_name]["location"] = user["location"]
-        data[screen_name]["description"] = user["description"]
-        data[screen_name]["lang"] = user["lang"]
+        user_info = dict()
+        user_info["screen_name"] = user["screen_name"]
+        user_info["name"] = user["name"]
+        user_info["location"] = user["location"]
+        user_info["description"] = user["description"]
+        user_info["lang"] = user["lang"]
+        data.append(user_info)
 
     with open("file1.json", "w", encoding = "utf-8") as file:
         json.dump(data, file, ensure_ascii = False, indent = 4)
+
+    return data
