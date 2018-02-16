@@ -16,9 +16,9 @@ def make_coordinates(users):
                 la = user_loc.latitude
                 lo = user_loc.longitude
                 if (la, lo) not in new_users:
-                    new_users[(la, lo)] = "<li>{}</li>".format(user["name"])
+                    new_users[(la, lo)] = "<li>{}</li>".format(user["screen_name"])
                 else:
-                    new_users[(la, lo)]+="<li>{}</li>".format(user["name"])
+                    new_users[(la, lo)]+="<li>{}</li>".format(user["screen_name"])
         except:
             pass
     for user in new_users:
@@ -38,10 +38,9 @@ def map_create(users):
     fg = folium.FeatureGroup("Users")
     for user in users:
         try:
-            fg_films.add_child(folium.Marker(location=user, popup=users[
+            fg.add_child(folium.Marker(location=user, popup=users[
                 user]))
         except:
             pass
     map.add_child(fg)
-    map.add_child(folium.LayerControl())
     return map.get_root().render()

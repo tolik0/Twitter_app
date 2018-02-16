@@ -16,7 +16,7 @@ def list_friends(acct):
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    url = twurl.augment(TWITTER_URL, {'screen_name': acct, 'count': '40'})
+    url = twurl.augment(TWITTER_URL, {'screen_name': acct, 'count': '20'})
     print('Retrieving', url)
     connection = urllib.request.urlopen(url, context=ctx)
     data = connection.read().decode()
