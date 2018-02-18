@@ -16,12 +16,10 @@ def main_page():
 
 @app.route('/<name>')
 def map(name):
-    try:
-        users = list_friends(name)
-    except:
-        continue
+    users = list_friends(name)
     users = make_coordinates(users)
     return map_create(users)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
