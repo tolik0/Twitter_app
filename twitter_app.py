@@ -5,6 +5,7 @@ from create_map import make_coordinates, map_create
 app = Flask(__name__)
 
 
+# main page
 @app.route('/', methods=['POST', 'GET'])
 def main_page():
     error = None
@@ -14,6 +15,7 @@ def main_page():
     return render_template("index.html")
 
 
+# page of map
 @app.route('/<name>')
 def map(name):
     users = list_friends(name)
@@ -22,4 +24,4 @@ def map(name):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()

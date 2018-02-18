@@ -4,9 +4,17 @@ import json
 import ssl
 
 
-def list_friends(acct, categories = ("screen_name", "location"), flag = "print"):
-
+def list_friends(acct, categories = ("screen_name", "location"), flag = ""):
+    """
+    (str, tuple, str) -> list
+    Return list of dictionaries with keys from categories
+    If flag print we print result, if save - save, else nothing
+    """
     def search(dict0, category):
+        """
+        (dict) -> object
+        Search category in dictionary
+        """
         for i in dict0:
             if i == category:
                 return dict0[category]
@@ -35,15 +43,19 @@ def list_friends(acct, categories = ("screen_name", "location"), flag = "print")
     js = json.loads(data)
 
     data = []
+
     for user in js["users"]:
         user_info = dict()
         for category in categories:
             inf = search(user, category)
             user_info[category] = inf
         data.append(user_info)
+
     if flag == "print":
+        # print results
         print(json.dumps(data, ensure_ascii = False, indent=4))
     elif flag == "save":
+        # save results
         with open("friend_info.json", "w", encoding = "utf-8") as file:
             json.dump(data, file, ensure_ascii = False, indent = 4)
 

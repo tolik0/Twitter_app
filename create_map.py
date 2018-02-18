@@ -5,7 +5,7 @@ import geopy
 def make_coordinates(users):
     """
     (dict) -> (dict)
-    Transfer adress to tuple of coordinates for all films in list films
+    Return dict with coordinates as key and name as value
     """
     new_users = dict()
     geocoder = geopy.geocoders.ArcGIS()
@@ -30,16 +30,15 @@ def make_coordinates(users):
 def map_create(users):
     """
     (dict, int, int) -> None
-    Create map with tree layers: films, dencity of country and urban areas
+    Create map with markers of names
     """
     # create map
     map = folium.Map()
-    # add films to map
+    # add users to map
     fg = folium.FeatureGroup("Users")
     for user in users:
         try:
-            fg.add_child(folium.Marker(location=user, popup=users[
-                user]))
+            fg.add_child(folium.Marker(location=user, popup=users[user]))
         except:
             pass
     map.add_child(fg)
