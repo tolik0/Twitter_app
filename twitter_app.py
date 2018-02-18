@@ -16,7 +16,10 @@ def main_page():
 
 @app.route('/<name>')
 def map(name):
-    users = list_friends(name)
+    try:
+        users = list_friends(name)
+    except:
+        continue
     users = make_coordinates(users)
     return map_create(users)
 
