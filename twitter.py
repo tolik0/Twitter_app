@@ -4,7 +4,18 @@ import json
 import ssl
 
 
-def list_friends(acct, flag = "print"):
+def list_friends(acct, categories = ("screen_name", "location"), flag = "print"):
+
+    def search(dict0, category):
+        for i in dict0:
+            if i == category:
+                return dict0[category]
+        for i in dict0:
+            if type(dict0[i]) == dict:
+                inf = search(dict0[i])
+                if not inf:
+                    return inf
+        return None
 
     # https://apps.twitter.com/
     # Create App and get the four strings, put them in hidden.py
@@ -26,15 +37,13 @@ def list_friends(acct, flag = "print"):
     data = []
     for user in js["users"]:
         user_info = dict()
-        user_info["screen_name"] = user["screen_name"]
-        user_info["name"] = user["name"]
-        user_info["location"] = user["location"]
-        user_info["description"] = user["description"]
-        user_info["lang"] = user["lang"]
+        for category in categories:
+            inf = search(user, category)
+            user_info[category] = inf
         data.append(user_info)
     if flag == "print":
-        print(json.dumps(data, indent=4))
-    else:
+        print(json.dumps(data, ensure_ascii = False, indent=4))
+    elif flag == "save":
         with open("friend_info.json", "w", encoding = "utf-8") as file:
             json.dump(data, file, ensure_ascii = False, indent = 4)
 
